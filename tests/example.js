@@ -1,5 +1,8 @@
+// Core Packages
 const puppeteer = require('puppeteer')
 const expect = require('chai').expect
+
+// Helper Functions
 const config = require('../lib/config')
 const click = require('../lib/helpers').click
 const typeText = require('../lib/helpers').typeText
@@ -9,7 +12,11 @@ const pressKey = require('../lib/helpers').pressKey
 const shouldExist = require('../lib/helpers').shouldExist
 const getCount = require('../lib/helpers').getCount
 
+// Utility Functions
 const utils = require('../lib/utils')
+
+const homePage = require('../page-object/home-page')
+const loginPage = require('../page-object/login-page')
 
 describe('My first puppeteer test', () => {
   let brower
@@ -33,40 +40,38 @@ describe('My first puppeteer test', () => {
     await brower.close()
   })
 
-  const LOGIN_FORM = '#login_form'
-
   describe('Login test', () => {
     it('Should navigate to homepage', async () => {
       await loadUrl(page, config.baseUrl)
-      await shouldExist(page, "#online_banking_features")
+      await shouldExist(page, homePage.BANKING_FEATURES)
 
     })
 
     it('Should click on signin button', async () => {
-      await click(page, '#signin_button')
-      await shouldExist(page, LOGIN_FORM)
+      await click(page, homePage.SIGN_IN_BUTTON)
+      await shouldExist(page, loginPage.LOGIN_FORM)
     })
 
     it('Should submit login form', async () => {
-      await typeText(page, utils.generateID(), '#user_login')
-      await typeText(page, utils.generateNumbers(), '#user_password')
+      await typeText(page, utils.generateID(), loginPage.USER_NAME)
+      await typeText(page, utils.generateNumbers(), loginPage.USER_PASSWORD)
       await click(page, '.btn-primary')
     })
 
     it('Should get error message', async () => {
       await waitForText(page, 'body', 'Login and/or password are wrong.')
-      await shouldExist(page, LOGIN_FORM)
+      await shouldExist(page, loginPage.LOGIN_FORM)
     })
   })
 
   describe('Search Test', () => {
     it('Should navigate to homrpage', async () => {
       await loadUrl(page, config.baseUrl)
-      await shouldExist(page, '#online_banking_features')
+      await shouldExist(page, homePage.BANKING_FEATURES)
     })
 
     it('Should submit search phrase', async () => {
-      await typeText(page, "hello world", '#searchTerm')
+      await typeText(page, "hello world", homePage.SEARCH_BAR)
       await pressKey(page, 'Enter')
     })
 
@@ -79,7 +84,8 @@ describe('My first puppeteer test', () => {
   describe('Navbar Link Test', () => {
     it('Should navigate to homrpage', async () => {
       await loadUrl(page, config.baseUrl)
-      await shouldExist(page, '#online_banking_features')
+      await shouldExist(page, homePage.BANKING_FEATURES)
+
     })
 
     it('Should have correct number of links', async () => {
@@ -93,11 +99,12 @@ describe('My first puppeteer test', () => {
   describe('Feedback Test', () => {
     it('Should navigate to homrpage', async () => {
       await loadUrl(page, config.baseUrl)
-      await shouldExist(page, '#online_banking_features')
+      await shouldExist(page, homePage.BANKING_FEATURES)
+
     })
 
     it('Should click on feedback link', async () => {
-      await click(page, '#feedback')
+      await click(page, homePage.FEEDBACK)
       await shouldExist(page, 'form')
     })
     it('Should submit feedback form', async () => {
@@ -117,7 +124,7 @@ describe('My first puppeteer test', () => {
   describe('Forgotten password', () => {
     it('Should navigate to homrpage', async () => {
       await loadUrl(page, config.baseUrl)
-      await shouldExist(page, '#online_banking_features')
+      await shouldExist(page, homePage.BANKING_FEATURES)
     })
 
     it('Should load forgotten password form', async () => {
