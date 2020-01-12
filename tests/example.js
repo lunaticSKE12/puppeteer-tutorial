@@ -40,9 +40,17 @@ describe('My first puppeteer test', () => {
     const url = await page.url()
     const title = await page.title()
 
+    await page.waitFor(3000) // Bad practice
+
     expect(url).to.contain('dev')
     expect(title).to.contain("Community")
 
+  })
 
+  it('click method', async () => {
+    await page.goto('https://dev.to/')
+    await page.waitForSelector('#write-link')
+    await page.click('#write-link')
+    await page.waitForSelector('.registration-rainbow')
   })
 })
