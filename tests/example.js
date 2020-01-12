@@ -114,6 +114,27 @@ describe('My first puppeteer test', () => {
     })
   })
 
+  describe('Forgotten password', () => {
+    it('Should navigate to homrpage', async () => {
+      await loadUrl(page, config.baseUrl)
+      await shouldExist(page, '#online_banking_features')
+    })
+
+    it('Should load forgotten password form', async () => {
+      await loadUrl(page, 'http://zero.webappsecurity.com/forgot-password.html')
+      await waitForText(page, 'h3', 'Forgotten Password')
+    })
+    it('Should submit email', async () => {
+      await typeText(page, utils.generateEmail(), '#user_email')
+      await click(page, ".btn-primary")
+    })
+    it('Should display success', async () => {
+      await waitForText(
+        page, 'body', 'Your password will be sent to the following email'
+      )
+    })
+  })
+
 
 
 })
