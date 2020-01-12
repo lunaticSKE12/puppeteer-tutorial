@@ -4,12 +4,16 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests"
+		"test": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests",
+		"test:snapshot": "jest --config=jest.config.js --detectOpenHandles --forceExit",
+		"test:snapshot:update": "jest --config=jest.config.js --updateSnapshot --detectOpenHandles --forceExit"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"chai": "^4.2.0",
+		"jest": "^24.9.0",
+		"jest-image-snapshot": "^2.11.1",
 		"mocha": "^7.0.0",
 		"puppeteer": "^2.0.0"
 	}
