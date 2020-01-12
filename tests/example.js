@@ -40,7 +40,7 @@ describe('My first puppeteer test', () => {
     const url = await page.url()
     const title = await page.title()
 
-    await page.waitFor(3000) // Bad practice
+    // await page.waitFor(3000) // Bad practice
 
     expect(url).to.contain('dev')
     expect(title).to.contain("Community")
@@ -52,5 +52,13 @@ describe('My first puppeteer test', () => {
     await page.waitForSelector('#write-link')
     await page.click('#write-link')
     await page.waitForSelector('.registration-rainbow')
+  })
+
+  it('submit searchbox', async () => {
+    await page.goto('https://dev.to/')
+    await page.waitForSelector('#nav-search')
+    await page.type('#nav-search', 'Javascript')
+    await page.keyboard.press('Enter')
+    await page.waitForSelector('#articles-list')
   })
 })
