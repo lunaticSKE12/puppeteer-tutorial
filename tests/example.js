@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer')
 const expect = require('chai').expect
 const config = require('../lib/config')
+const click = require('../lib/helpers').click
 
 describe('My first puppeteer test', () => {
   let brower
@@ -53,8 +54,9 @@ describe('My first puppeteer test', () => {
 
   it('click method', async () => {
     await page.goto('https://dev.to/')
-    await page.waitForSelector('#write-link')
-    await page.click('#write-link')
+    // await page.waitForSelector('#write-link')
+    // await page.click('#write-link')
+    await click(page, '#write-link')
     await page.waitForSelector('.registration-rainbow')
   })
 
