@@ -90,6 +90,31 @@ describe('My first puppeteer test', () => {
     })
   })
 
+  describe('Feedback Test', () => {
+    it('Should navigate to homrpage', async () => {
+      await loadUrl(page, config.baseUrl)
+      await shouldExist(page, '#online_banking_features')
+    })
+
+    it('Should click on feedback link', async () => {
+      await click(page, '#feedback')
+      await shouldExist(page, 'form')
+    })
+    it('Should submit feedback form', async () => {
+      await typeText(page, 'Kaniel', '#name')
+      await typeText(page, utils.generateEmail(), '#email')
+      await typeText(page, 'Just Subject', '#subject')
+      await typeText(page, "comment", '#comment')
+      await click(page, 'input[type="submit"]')
+    })
+
+    it('Should display success message', async () => {
+      await shouldExist(page, '#feedback-title')
+      await waitForText(page, 'body', 'Thank you for your comments')
+    })
+  })
+
+
 
 })
 
