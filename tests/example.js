@@ -3,6 +3,8 @@ const expect = require('chai').expect
 const config = require('../lib/config')
 const click = require('../lib/helpers').click
 const typeText = require('../lib/helpers').typeText
+const loadUrl = require('../lib/helpers').loadUrl
+const waitForText = require('../lib/helpers').waitForText
 
 describe('My first puppeteer test', () => {
   let brower
@@ -26,9 +28,7 @@ describe('My first puppeteer test', () => {
     await brower.close()
   })
   it('My first test step', async () => {
-
-    // await page.goto('https://dev.to/')
-    await page.goto(config.baseUrl)
+    await loadUrl(page, config.baseUrl)
     await page.waitForSelector('#nav-search')
 
     const url = await page.url()
@@ -43,10 +43,10 @@ describe('My first puppeteer test', () => {
     await page.reload()
     await page.waitForSelector('#page-content')
 
+    await waitForText(page, 'body', 'WRITE A POST')
+
     const url = await page.url()
     const title = await page.title()
-
-    // await page.waitFor(3000) // Bad practice
 
     expect(url).to.contain('dev')
     expect(title).to.contain("Community")
@@ -54,17 +54,13 @@ describe('My first puppeteer test', () => {
   })
 
   it('click method', async () => {
-    await page.goto('https://dev.to/')
-    // await page.waitForSelector('#write-link')
-    // await page.click('#write-link')
+    await loadUrl(page, config.baseUrl)
     await click(page, '#write-link')
     await page.waitForSelector('.registration-rainbow')
   })
 
   it('submit searchbox', async () => {
-    await page.goto('https://dev.to/')
-    // await page.waitForSelector('#nav-search')
-    // await page.type('#nav-search', 'Javascript')
+    await loadUrl(page, config.baseUrl)
     await typeText(page, 'Javascript', '#nav-search')
     await page.keyboard.press('Enter')
     await page.waitForSelector('#articles-list')
