@@ -7,6 +7,8 @@ const loadUrl = require('../lib/helpers').loadUrl
 const waitForText = require('../lib/helpers').waitForText
 const pressKey = require('../lib/helpers').pressKey
 const shouldExist = require('../lib/helpers').shouldExist
+const getCount = require('../lib/helpers').getCount
+
 const utils = require('../lib/utils')
 
 describe('My first puppeteer test', () => {
@@ -73,6 +75,21 @@ describe('My first puppeteer test', () => {
       await waitForText(page, 'body', 'No results were found for the query')
     })
   })
+
+  describe('Navbar Link Test', () => {
+    it('Should navigate to homrpage', async () => {
+      await loadUrl(page, config.baseUrl)
+      await shouldExist(page, '#online_banking_features')
+    })
+
+    it('Should have correct number of links', async () => {
+      // get count of links
+      const numberOfLinks = await getCount(page, '#pages-nav > li')
+      // assert the count
+      expect(numberOfLinks).to.equal(3)
+    })
+  })
+
 
 })
 
