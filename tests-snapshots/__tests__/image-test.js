@@ -28,4 +28,11 @@ describe('My first snapshot test', () => {
       failureThresholdType: 'percent'
     })
   })
+
+  test('single element snapshot', async () => {
+    await page.goto('https://example.com')
+    const h1 = await page.waitForSelector('h1')
+    const image = await h1.screenshot()
+    expect(image).toMatchImageSnapshot()
+  })
 })
