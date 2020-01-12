@@ -19,8 +19,13 @@ describe('My first snapshot test', () => {
   })
 
   test('homepage snapshot', async () => {
-    await page.goto('https://google.com')
+    await page.goto('https://example.com')
     const image = await page.screenshot()
-    expect(image).toMatchImageSnapshot()
+    // error less than percent/pixel pass
+    // should not use in production
+    expect(image).toMatchImageSnapshot({
+      failureThreshold: "0.01",
+      failureThresholdType: 'percent'
+    })
   })
 })
