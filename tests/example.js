@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer')
 const expect = require('chai').expect
 const config = require('../lib/config')
 const click = require('../lib/helpers').click
+const typeText = require('../lib/helpers').typeText
 
 describe('My first puppeteer test', () => {
   let brower
@@ -62,8 +63,9 @@ describe('My first puppeteer test', () => {
 
   it('submit searchbox', async () => {
     await page.goto('https://dev.to/')
-    await page.waitForSelector('#nav-search')
-    await page.type('#nav-search', 'Javascript')
+    // await page.waitForSelector('#nav-search')
+    // await page.type('#nav-search', 'Javascript')
+    await typeText(page, 'Javascript', '#nav-search')
     await page.keyboard.press('Enter')
     await page.waitForSelector('#articles-list')
   })
