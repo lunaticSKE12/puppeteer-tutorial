@@ -15,15 +15,19 @@ const getCount = require('../lib/helpers').getCount
 // Utility Functions
 const utils = require('../lib/utils')
 
+// Pages
 const homePage = require('../page-object/home-page')
 const loginPage = require('../page-object/login-page')
+const searchResultPage = require('../page-object/searchResult-page')
+const feedbackPage = require('../page-object/feedback-page')
+const feedbackResultsPage = require('../page-object/feedbackResults-page')
 
 describe('My first puppeteer test', () => {
   let brower
   let page
   before(async function () {
     brower = await puppeteer.launch({
-      handless: config.isHeadless,
+      headless: config.isHeadless,
       slowMo: config.slowMo,
       devtools: config.isDevtools,
       timeout: config.launchTimeout
@@ -76,8 +80,8 @@ describe('My first puppeteer test', () => {
     })
 
     it('Should display search result', async () => {
-      await waitForText(page, 'h2', 'Search Results')
-      await waitForText(page, 'body', 'No results were found for the query')
+      await waitForText(page, searchResultPage.SEARCH_RESULTS_TITLE, 'Search Results')
+      await waitForText(page, searchResultPage.SEARCH_RESULTS_CONTENT, 'No results were found for the query')
     })
   })
 
@@ -105,19 +109,19 @@ describe('My first puppeteer test', () => {
 
     it('Should click on feedback link', async () => {
       await click(page, homePage.FEEDBACK)
-      await shouldExist(page, 'form')
+      await shouldExist(page, feedbackPage.FEEDBACK_FORM)
     })
     it('Should submit feedback form', async () => {
-      await typeText(page, 'Kaniel', '#name')
-      await typeText(page, utils.generateEmail(), '#email')
-      await typeText(page, 'Just Subject', '#subject')
-      await typeText(page, "comment", '#comment')
-      await click(page, 'input[type="submit"]')
+      await typeText(page, 'Kaniel', feedbackPage.FORM_NAME)
+      await typeText(page, utils.generateEmail(), feedbackPage.FORM_EMAIL)
+      await typeText(page, 'Just Subject', feedbackPage.FORM_SUBJECT)
+      await typeText(page, "comment", feedbackPage.FORM_COMMENT)
+      await click(page, feedbackPage.FORM_SUBMIT_BUTTON)
     })
 
     it('Should display success message', async () => {
-      await shouldExist(page, '#feedback-title')
-      await waitForText(page, 'body', 'Thank you for your comments')
+      await shouldExist(page, feedbackResultsPage.FEEDBACK_RESULTS_TITLE)
+      await waitForText(page, feedbackResultsPage.FEEDBACK_RESULTS_CONTENT, 'Thank you for your comments')
     })
   })
 
