@@ -7,8 +7,7 @@ const loadUrl = require('../lib/helpers').loadUrl
 const waitForText = require('../lib/helpers').waitForText
 const pressKey = require('../lib/helpers').pressKey
 const shouldExist = require('../lib/helpers').shouldExist
-const generateID = require('../lib/utils').generateID
-const generateEmail = require('../lib/utils').generateEmail
+const utils = require('../lib/utils')
 
 describe('My first puppeteer test', () => {
   let brower
@@ -66,7 +65,7 @@ describe('My first puppeteer test', () => {
   it('submit searchbox', async () => {
     await loadUrl(page, config.baseUrl)
     // await typeText(page, 'Javascript', '#nav-search')
-    await typeText(page, generateEmail(), '#nav-search')
+    await typeText(page, utils.generateEmail(), '#nav-search')
     await page.waitFor(3000)
     await pressKey(page, 'Enter')
     await shouldExist(page, '#articles-list')
