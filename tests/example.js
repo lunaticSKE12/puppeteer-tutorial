@@ -56,6 +56,24 @@ describe('My first puppeteer test', () => {
       await shouldExist(page, LOGIN_FORM)
     })
   })
+
+  describe('Search Test', () => {
+    it('Should navigate to homrpage', async () => {
+      await loadUrl(page, config.baseUrl)
+      await shouldExist(page, '#online_banking_features')
+    })
+
+    it('Should submit search phrase', async () => {
+      await typeText(page, "hello world", '#searchTerm')
+      await pressKey(page, 'Enter')
+    })
+
+    it('Should display search result', async () => {
+      await waitForText(page, 'h2', 'Search Results')
+      await waitForText(page, 'body', 'No results were found for the query')
+    })
+  })
+
 })
 
 
