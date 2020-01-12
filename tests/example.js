@@ -30,44 +30,73 @@ describe('My first puppeteer test', () => {
   after(async function () {
     await brower.close()
   })
-  it('My first test step', async () => {
-    await loadUrl(page, config.baseUrl)
-    await shouldExist(page, '#nav-search')
-    const url = await page.url()
-    const title = await page.title()
 
-    expect(url).to.contain('dev')
-    expect(title).to.contain("Community")
+  const LOGIN_FORM = '#login_form'
 
-  })
+  describe('Login test', () => {
+    it('Should navigate to homepage', async () => {
+      await loadUrl(page, config.baseUrl)
+      await shouldExist(page, "#online_banking_features")
 
-  it('browser reload', async () => {
-    await page.reload()
-    await shouldExist(page, '#page-content')
+    })
 
-    await waitForText(page, 'body', 'WRITE A POST')
+    it('Should click on signin button', async () => {
+      await click(page, '#signin_button')
+      await shouldExist(page, LOGIN_FORM)
+    })
 
-    const url = await page.url()
-    const title = await page.title()
+    it('Should submit login form', async () => {
+      await typeText(page, utils.generateID(), '#user_login')
+      await typeText(page, utils.generateNumbers(), '#user_password')
+      await click(page, '.btn-primary')
+    })
 
-    expect(url).to.contain('dev')
-    expect(title).to.contain("Community")
-
-  })
-
-  it('click method', async () => {
-    await loadUrl(page, config.baseUrl)
-    await click(page, '#write-link')
-    await shouldExist(page, '.registration-rainbow')
-
-  })
-
-  it('submit searchbox', async () => {
-    await loadUrl(page, config.baseUrl)
-    // await typeText(page, 'Javascript', '#nav-search')
-    await typeText(page, utils.generateEmail(), '#nav-search')
-    await page.waitFor(3000)
-    await pressKey(page, 'Enter')
-    await shouldExist(page, '#articles-list')
+    it('Should get error message', async () => {
+      await waitForText(page, 'body', 'Login and/or password are wrong.')
+      await shouldExist(page, LOGIN_FORM)
+    })
   })
 })
+
+
+
+// it('My first test step', async () => {
+//   await loadUrl(page, config.baseUrl)
+//   await shouldExist(page, '#nav-search')
+//   const url = await page.url()
+//   const title = await page.title()
+
+//   expect(url).to.contain('dev')
+//   expect(title).to.contain("Community")
+
+// })
+
+// it('browser reload', async () => {
+//   await page.reload()
+//   await shouldExist(page, '#page-content')
+
+//   await waitForText(page, 'body', 'WRITE A POST')
+
+//   const url = await page.url()
+//   const title = await page.title()
+
+//   expect(url).to.contain('dev')
+//   expect(title).to.contain("Community")
+
+// })
+
+// it('click method', async () => {
+//   await loadUrl(page, config.baseUrl)
+//   await click(page, '#write-link')
+//   await shouldExist(page, '.registration-rainbow')
+
+// })
+
+// it('submit searchbox', async () => {
+//   await loadUrl(page, config.baseUrl)
+//   // await typeText(page, 'Javascript', '#nav-search')
+//   await typeText(page, utils.generateEmail(), '#nav-search')
+//   await page.waitFor(3000)
+//   await pressKey(page, 'Enter')
+//   await shouldExist(page, '#articles-list')
+// })
